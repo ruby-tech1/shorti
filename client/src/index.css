@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-primary-500 font-sans  font-normal leading-none text-grey-900;
+  }
+
+  p {
+    @apply m-0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    @apply m-0 font-normal leading-none capitalize tracking-wider;
+  }
+
+  h1 {
+    @apply text-5xl
+  }
+
+  h2 {
+    @apply text-4xl;
+  }
+
+  h3 {
+    @apply text-3xl
+  }
+
+  h4 {
+    @apply text-2xl
+  }
+
+  h5 {
+    @apply text-xl
+  }
+
+  a {
+    @apply no-underline
+  }
+
+  ul {
+    @apply list-none p-0;
+  }
+  
+}
+
+@layer components {
+  .btn {
+    @apply cursor-pointer text-white bg-primary-500 border-0  tracking-wider px-1 py-3 shadow-sm transition-all duration-300 ease-in-out capitalize inline-block hover:bg-primary-700
+  }
+
+  .sub-links svg {
+    @apply text-grey-500;
+  }
+
+  .sub-links a:hover svg {
+    @apply text-grey-600 transition-all duration-300 ease-in-out;
+  }
+
+  .input {
+    @apply  border-solid border-grey-400 border-2 rounded placeholder:capitalize placeholder:text-grey-500 placeholder:font-normal focus:outline-none focus:border-primary-500 hover:border-primary-500 my-2 transition-all;
+  }
+}
