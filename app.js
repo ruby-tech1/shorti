@@ -24,6 +24,9 @@ import UrlRouter from "./routes/UrlRouter.js";
 import ErrorHandlerMiddleware from "./middleware/error-handler.js";
 import NotFoundMiddleware from "./middleware/error-handler.js";
 
+// CronJob
+import cronJob from "./cron_job/index.js";
+
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -57,6 +60,7 @@ const start = async () => {
     app.listen(port, () => {
       console.log(`Listening on port ${port}...`);
     });
+    cronJob();
   } catch (error) {
     console.log(error);
   }

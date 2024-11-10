@@ -17,7 +17,7 @@ export const createShortUrl = async (req, res) => {
     return;
   }
   const urlId = nanoid(10);
-  const shortUrl = `${process.env.ORIGIN}/${urlId}`;
+  const shortUrl = `${process.env.ORIGIN}/u/${urlId}`;
 
   url = await URL.create({ origUrl, shortUrl, urlId });
 
