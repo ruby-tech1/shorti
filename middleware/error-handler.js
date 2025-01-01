@@ -1,10 +1,8 @@
-// const { CustomAPIError } = require('../errors')
 import { StatusCodes } from "http-status-codes";
 const errorHandlerMiddleware = (err, req, res, next) => {
   if (process.env.NODE_ENV !== "production") {
     console.log(err);
   }
-  // console.log(err);
 
   let customError = {
     // set default
@@ -42,6 +40,22 @@ const errorHandlerMiddleware = (err, req, res, next) => {
 
   // return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err });
   return res.status(customError.statusCode).json({ msg: customError.msg });
+};
+
+export const botErrorHandlerMiddleware = (bot) => {
+  // Listen for polling errors
+  bot.on("polling_error", (error) => {
+    console.log("Polling Error:", error);
+  });
+
+  // Optional: Listen for other types of errors
+  bot.on("webhook_error", (error) => {
+    console.error("Webhook Error:", error);
+  });
+
+  bot.on("error", (error) => {
+    console.error("General Error:", error);
+  });
 };
 
 export default errorHandlerMiddleware;

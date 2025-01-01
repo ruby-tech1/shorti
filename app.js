@@ -19,6 +19,7 @@ import xss from "xss-clean";
 
 // Routes
 import UrlRouter from "./routes/UrlRouter.js";
+import QrcodeRouter from "./routes/QrcodeRouter.js";
 
 // Error Handlers
 import ErrorHandlerMiddleware from "./middleware/error-handler.js";
@@ -26,6 +27,9 @@ import NotFoundMiddleware from "./middleware/error-handler.js";
 
 // CronJob
 import cronJob from "./cron_job/index.js";
+
+// Others
+import { botActions } from "./service/TelegramBotService.js";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -43,6 +47,7 @@ app.use(express.static(path.resolve(__dirname, "./client/dist")));
 
 // Routes
 app.use("/", UrlRouter);
+app.use("/", QrcodeRouter);
 
 // app.get("*", (req, res) => {
 //   res.sendFile(path.resolve(__dirname, "./client/dist", "index.html"));
@@ -57,6 +62,7 @@ const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI);
     console.log("Database Connected");
+    botActions({ token: process.env.TELEGRAM_BOT_TOKEN });
     app.listen(port, () => {
       console.log(`Listening on port ${port}...`);
     });
