@@ -23,13 +23,13 @@ import QrcodeRouter from "./routes/QrcodeRouter.js";
 
 // Error Handlers
 import ErrorHandlerMiddleware from "./middleware/error-handler.js";
-import NotFoundMiddleware from "./middleware/error-handler.js";
+import NotFoundMiddleware from "./middleware/not-found.js";
 
 // CronJob
 import cronJob from "./cron_job/index.js";
 
 // Others
-import { botActions } from "./service/TelegramBotService.js";
+import { createBot } from "./service/TelegramBotService.js";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -62,13 +62,16 @@ const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI);
     console.log("Database Connected");
-    botActions({ token: process.env.TELEGRAM_BOT_TOKEN });
+
+    createBot({ token: process.env.TELEGRAM_BOT_TOKEN });
+
     app.listen(port, () => {
       console.log(`Listening on port ${port}...`);
     });
     cronJob();
   } catch (error) {
     console.log(error);
+    process.exit(1);
   }
 };
 

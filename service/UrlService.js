@@ -1,10 +1,11 @@
 import URL from "../model/url.js";
 import { BadRequestError } from "../errors/index.js";
 import { nanoid } from "nanoid";
+import validator from "validator";
 
 export const createShortUrlService = async ({ origUrl }) => {
-  if (!origUrl) {
-    throw new BadRequestError("Please provide the url");
+  if (!origUrl || validator.isURL(origUrl)) {
+    throw new BadRequestError("Please provide a valid URL");
   }
 
   let url = await URL.findOne({ origUrl });
@@ -18,18 +19,6 @@ export const createShortUrlService = async ({ origUrl }) => {
   url = await URL.create({ origUrl, shortUrl, urlId });
 
   return { shortUrl: url.shortUrl, clicks: url.clicks };
-};
-
-export const botCreateShortUrlService = ({ bot, options }) => {
-  bot.onText(/\/generateshorturl/, async (msg) => {
-    const chatId = msg.chat.id;
-    const origUrl = msg.text.substring(18);
-
-    const { shortUrl, clicks } = await createShortUrlService({ origUrl });
-    const resultText = `Short Url: ${shortUrl}\nClicks: ${clicks}`;
-
-    bot.sendMessage(chatId, resultText, options);
-  });
 };
 
 export const getShortUrlService = async ({ id }) => {
